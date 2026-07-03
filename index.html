@@ -256,6 +256,20 @@ a.plaque .pfoot::after{content:" \2197"}
 }
 #modal input:focus,#modal textarea:focus{border-color:rgba(232,162,84,.6)}
 #modal input::placeholder,#modal textarea::placeholder{color:#5a5f6a}
+#modal .consent{
+  display:flex;gap:.7rem;align-items:flex-start;margin-top:1.5rem;
+  color:var(--smoke);font-size:.78rem;line-height:1.55;font-weight:300;
+}
+#modal .consent input[type=checkbox]{
+  width:18px;height:18px;min-width:18px;margin-top:.1rem;padding:0;
+  accent-color:var(--molten);cursor:pointer;
+}
+#modal .consent label{
+  margin:0;text-transform:none;letter-spacing:normal;font-size:.78rem;
+  color:var(--smoke);font-weight:300;cursor:pointer;
+}
+#modal .consent a{color:var(--molten);text-decoration:underline}
+#modal .consent a:hover{color:var(--chrome)}
 #modal .ferr{color:#e88a7a;font-size:.82rem;min-height:1.2em;margin-top:.9rem}
 #modal .btn.send{margin-top:.4rem;width:100%}
 #modal .close{
@@ -393,6 +407,10 @@ footer .base{
       <input id="f-phone" type="tel" autocomplete="tel" placeholder="04xx xxx xxx">
       <label for="f-msg">Message</label>
       <textarea id="f-msg" rows="4" placeholder="What's on your mind?"></textarea>
+      <div class="consent">
+        <input id="f-consent" type="checkbox">
+        <label for="f-consent">I agree to receive SMS text messages from UConnect at the number provided, including responses to my enquiry and, where applicable, account and marketing messages. Message frequency varies and message &amp; data rates may apply. Reply STOP to opt out or HELP for help. Consent is not a condition of purchase. See our <a href="/privacy.html" target="_blank" rel="noopener">Privacy Policy</a> and <a href="/tc.html" target="_blank" rel="noopener">Terms &amp; Conditions</a>.</label>
+      </div>
       <div class="ferr" id="ferr"></div>
       <button class="btn send" id="sendform" type="button">Send message</button>
     </div>
@@ -651,6 +669,8 @@ document.getElementById('openform').addEventListener('click', () => {
   modal.classList.add('open');
   document.getElementById('formview').style.display = 'block';
   document.getElementById('doneview').style.display = 'none';
+  document.getElementById('f-consent').checked = false;
+  document.getElementById('ferr').textContent = '';
 });
 document.getElementById('closeform').addEventListener('click', () => modal.classList.remove('open'));
 modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('open'); });
@@ -660,10 +680,12 @@ document.getElementById('sendform').addEventListener('click', async () => {
   const name = document.getElementById('f-name').value.trim();
   const phone = document.getElementById('f-phone').value.trim();
   const message = document.getElementById('f-msg').value.trim();
+  const consent = document.getElementById('f-consent').checked;
   const err = document.getElementById('ferr');
   if (!name || !phone) { err.textContent = 'Please add your name and number.'; return; }
+  if (!consent) { err.textContent = 'Please tick the box to consent to SMS messages.'; return; }
   err.textContent = '';
-  const payload = { name, phone, message, source: 'uconnect.com.au', ts: new Date().toISOString() };
+  const payload = { name, phone, message, sms_consent: true, source: 'uconnect.com.au', ts: new Date().toISOString() };
   try {
     if (WEBHOOK_URL) {
       await fetch(WEBHOOK_URL, {
