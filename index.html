@@ -409,7 +409,7 @@ footer .base{
       <textarea id="f-msg" rows="4" placeholder="What's on your mind?"></textarea>
       <div class="consent">
         <input id="f-consent" type="checkbox">
-        <label for="f-consent">I agree to receive SMS text messages from UConnect at the number provided, including responses to my enquiry and, where applicable, account and marketing messages. Message frequency varies and message &amp; data rates may apply. Reply STOP to opt out or HELP for help. Consent is not a condition of purchase. See our <a href="/privacy.html" target="_blank" rel="noopener">Privacy Policy</a> and <a href="/tc.html" target="_blank" rel="noopener">Terms &amp; Conditions</a>.</label>
+        <label for="f-consent">By checking this box, I consent to receive non-marketing text messages from UConnect about my enquiry, including responses and related account and appointment updates. Message frequency varies, message &amp; data rates may apply. Text HELP for assistance, reply STOP to opt out. Consent is optional and not required to submit this form. See our <a href="/privacy.html" target="_blank" rel="noopener">Privacy Policy</a> and <a href="/tc.html" target="_blank" rel="noopener">Terms &amp; Conditions</a>.</label>
       </div>
       <div class="ferr" id="ferr"></div>
       <button class="btn send" id="sendform" type="button">Send message</button>
@@ -683,9 +683,8 @@ document.getElementById('sendform').addEventListener('click', async () => {
   const consent = document.getElementById('f-consent').checked;
   const err = document.getElementById('ferr');
   if (!name || !phone) { err.textContent = 'Please add your name and number.'; return; }
-  if (!consent) { err.textContent = 'Please tick the box to consent to SMS messages.'; return; }
   err.textContent = '';
-  const payload = { name, phone, message, sms_consent: true, source: 'uconnect.com.au', ts: new Date().toISOString() };
+  const payload = { name, phone, message, sms_consent: consent, source: 'uconnect.com.au', ts: new Date().toISOString() };
   try {
     if (WEBHOOK_URL) {
       await fetch(WEBHOOK_URL, {
