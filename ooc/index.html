@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>OOC-EMR Decision Worksheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ink:    #16191f;
+    --muted:  #6b7280;
+    --paper:  #faf6ef;
+    --cream:  #f2ead8;
+    --amber:  #d4860a;
+    --amber-pale: #fef3dc;
+    --navy:   #0e1117;
+    --navy-mid: #1b2535;
+    --sage:   #e8f2e9;
+    --line:   #ddd6c4;
+    --white:  #ffffff;
+    --radius: 18px;
+    --shadow: 0 12px 40px rgba(14,17,23,.1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.6;
+    font-size: 15px;
+  }
+
+  /* ── HERO ─────────────────────────────────────────── */
+  .hero {
+    background: var(--navy);
+    color: white;
+    padding: 64px 40px 56px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 110% 50%, rgba(212,134,10,.22) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 200px;
+    gap: 36px;
+    align-items: center;
+  }
+
+  .hero-text { min-width: 0; }
+
+  /* ── VIDEO CARD ─────────────────────────────────────── */
+  .video-card {
+    position: relative;
+    display: block;
+    width: 160px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,.55), 0 0 0 1.5px rgba(255,255,255,.1);
+    text-decoration: none;
+    flex-shrink: 0;
+    transition: transform .2s, box-shadow .2s;
+    cursor: pointer;
+    /* 9:16 aspect ratio */
+    aspect-ratio: 9 / 16;
+    background: #111;
+    justify-self: center;
+  }
+
+  .video-card:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 28px 60px rgba(0,0,0,.65), 0 0 0 1.5px rgba(212,134,10,.5);
+  }
+
+  .video-thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .video-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,.72) 0%, rgba(0,0,0,.1) 55%, transparent 100%);
+  }
+
+  .play-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 52px;
+    height: 52px;
+    background: rgba(255,255,255,.92);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .2s, transform .2s;
+    box-shadow: 0 4px 20px rgba(0,0,0,.4);
+  }
+
+  .video-card:hover .play-btn {
+    background: white;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+
+  .play-btn svg {
+    margin-left: 3px;
+  }
+
+  .video-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 14px 12px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    color: white;
+    line-height: 1.3;
+    letter-spacing: .01em;
+  }
+
+  .video-label .yt-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #ff0000;
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+
+  @media (max-width: 680px) {
+    .hero-inner {
+      grid-template-columns: 1fr;
+    }
+    .video-card {
+      width: 120px;
+      justify-self: start;
+    }
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 20px;
+  }
+
+  .eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 2px;
+    background: var(--amber);
+    border-radius: 2px;
+  }
+
+  .hero h1 {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: clamp(38px, 7vw, 72px);
+    line-height: .96;
+    font-weight: 400;
+    margin-bottom: 20px;
+    max-width: 740px;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: #f5c96b;
+  }
+
+  .hero-desc {
+    color: #9aa5b4;
+    font-size: 16px;
+    max-width: 560px;
+    line-height: 1.65;
+    margin-bottom: 32px;
+  }
+
+  .acronym-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .acr-pill {
+    background: rgba(255,255,255,.07);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 999px;
+    padding: 7px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .acr-pill span {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: #f5c96b;
+    line-height: 1;
+  }
+
+  /* ── SNAPSHOT BAR ─────────────────────────────────── */
+  .snapshot {
+    background: var(--white);
+    border-bottom: 1px solid var(--line);
+    padding: 22px 40px;
+  }
+
+  .snapshot-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .snap-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  .snap-field {
+    border: none;
+    border-bottom: 2px solid var(--cream);
+    background: transparent;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    color: var(--ink);
+    outline: none;
+    width: 100%;
+    padding: 4px 0;
+    transition: border-color .2s;
+  }
+
+  .snap-field:focus { border-bottom-color: var(--amber); }
+
+  .snap-pair { min-width: 140px; }
+
+  /* ── PAGE WRAPPER ─────────────────────────────────── */
+  .page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 24px 100px;
+  }
+
+  /* ── STEP CARD ────────────────────────────────────── */
+  .step {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    margin-bottom: 24px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    position: relative;
+  }
+
+  .step-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 28px 32px 22px;
+    border-bottom: 1px solid var(--cream);
+    background: var(--white);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ghost-letter {
+    position: absolute;
+    right: 18px;
+    top: -18px;
+    font-family: 'DM Serif Display', serif;
+    font-size: 140px;
+    font-weight: 400;
+    color: rgba(14,17,23,.04);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .step-badge {
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    background: var(--navy);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    color: #f5c96b;
+    box-shadow: 0 6px 18px rgba(14,17,23,.25);
+  }
+
+  .step-title { font-size: 20px; font-weight: 700; margin-bottom: 4px; color: var(--navy); }
+  .step-sub { font-size: 13px; color: var(--muted); }
+
+  .step-body {
+    padding: 26px 32px 30px;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 24px;
+  }
+
+  .step-body.wide {
+    grid-template-columns: 1fr;
+  }
+
+  /* ── INSTRUCTIONS ─────────────────────────────────── */
+  .instr {
+    background: #f0f6ff;
+    border-left: 4px solid #3b82f6;
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+  }
+
+  .instr-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: #2563eb;
+    margin-bottom: 8px;
+  }
+
+  .instr ul { padding-left: 18px; }
+  .instr li { margin: 5px 0; font-size: 13.5px; color: #374151; }
+
+  .tip {
+    background: var(--amber-pale);
+    border: 1px solid #f0c060;
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-size: 13px;
+    color: #7a4f00;
+    line-height: 1.55;
+  }
+
+  .tip-label {
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--amber);
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  /* ── WRITE AREA ───────────────────────────────────── */
+  .write-area {
+    min-height: 200px;
+    border: 1.5px solid var(--line);
+    border-radius: 14px;
+    padding: 16px;
+    font-size: 14.5px;
+    line-height: 2;
+    color: var(--ink);
+    outline: none;
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 29px,
+      rgba(14,17,23,.07) 30px
+    );
+    background-color: #fdfaf6;
+    transition: border-color .2s, box-shadow .2s;
+    cursor: text;
+  }
+
+  .write-area:empty::before {
+    content: attr(data-placeholder);
+    color: #b0a898;
+    pointer-events: none;
+    font-style: italic;
+  }
+
+  .write-area:focus {
+    border-color: var(--amber);
+    box-shadow: 0 0 0 3px rgba(212,134,10,.12);
+  }
+
+  /* ── SCORE TABLE ──────────────────────────────────── */
+  .score-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1.5px solid var(--line);
+    font-size: 14px;
+  }
+
+  .score-table th {
+    background: var(--navy);
+    color: white;
+    padding: 12px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .05em;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  .score-table td {
+    border-top: 1px solid var(--cream);
+    padding: 0;
+    height: 48px;
+    vertical-align: middle;
+  }
+
+  .score-table td:first-child { width: 38%; }
+
+  .cell-input {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 48px;
+    padding: 10px 14px;
+    border: none;
+    background: transparent;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    outline: none;
+    transition: background .15s;
+  }
+
+  .cell-input:focus { background: var(--amber-pale); }
+
+  .total-col { background: var(--sage); font-weight: 700; }
+
+  .table-note {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 10px;
+    font-style: italic;
+  }
+
+  /* ── RESOLVE CARD ─────────────────────────────────── */
+  .resolve-card {
+    background: var(--navy);
+    border-radius: 24px;
+    padding: 36px 32px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .resolve-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 55% 70% at 100% 100%, rgba(212,134,10,.18) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .resolve-card h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: white;
+    margin-bottom: 6px;
+    position: relative;
+  }
+
+  .resolve-card .step-sub {
+    color: #6b7280;
+    margin-bottom: 24px;
+    position: relative;
+  }
+
+  .resolve-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    position: relative;
+  }
+
+  .resolve-box {
+    border-radius: 14px;
+    border: 1.5px dashed rgba(255,255,255,.25);
+    background: rgba(255,255,255,.06);
+    padding: 16px;
+    min-height: 150px;
+    transition: border-color .2s, background .2s;
+  }
+
+  .resolve-box:focus-within {
+    border-color: rgba(212,134,10,.6);
+    background: rgba(212,134,10,.05);
+  }
+
+  .resolve-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: #f5c96b;
+    margin-bottom: 8px;
+  }
+
+  .resolve-write {
+    min-height: 100px;
+    color: #e8e8e8;
+    font-size: 14px;
+    line-height: 1.7;
+    outline: none;
+    width: 100%;
+  }
+
+  .resolve-write:empty::before {
+    content: attr(data-placeholder);
+    color: rgba(255,255,255,.2);
+    font-style: italic;
+    pointer-events: none;
+  }
+
+  /* ── FLOATING DOWNLOAD BTN ────────────────────────── */
+  .fab {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    background: var(--amber);
+    color: white;
+    border: none;
+    border-radius: 999px;
+    padding: 15px 24px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 8px 28px rgba(212,134,10,.45);
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    transition: transform .15s, box-shadow .15s;
+    z-index: 100;
+  }
+
+  .fab:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(212,134,10,.55);
+  }
+
+  .fab svg { flex-shrink: 0; }
+
+  /* ── DIVIDER ──────────────────────────────────────── */
+  .divider {
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: 4px 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  /* ── PRINT ────────────────────────────────────────── */
+  @media print {
+    @page { margin: 16mm 14mm; size: A4; }
+    body { background: white; font-size: 13px; }
+    .fab, .snapshot, .video-card { display: none !important; }
+    .hero-inner { grid-template-columns: 1fr !important; }
+    .hero { padding: 32px 28px; border-radius: 0; }
+    .page { padding: 20px 0 0; }
+    .step, .resolve-card { page-break-inside: avoid; box-shadow: none; }
+    .write-area { background-image: none; border: 1px solid #ccc; min-height: 120px; }
+    .ghost-letter { display: none; }
+    .step-body { grid-template-columns: 1fr; }
+    .resolve-grid { grid-template-columns: 1fr; }
+    .resolve-card { background: #1b2535 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .score-table th { background: #0e1117 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+
+  @media (max-width: 680px) {
+    .hero { padding: 40px 20px 36px; }
+    .snapshot { padding: 18px 20px; }
+    .snapshot-inner { grid-template-columns: 1fr; }
+    .page { padding: 24px 14px 80px; }
+    .step-body { grid-template-columns: 1fr; }
+    .step-head, .step-body { padding: 20px; }
+    .resolve-grid { grid-template-columns: 1fr; }
+    .resolve-card { padding: 24px 20px; }
+    .score-table { font-size: 12px; }
+    .score-table th { padding: 10px 10px; font-size: 11px; }
+    .fab { bottom: 16px; right: 16px; padding: 13px 18px; font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="eyebrow">Decision Clarity Worksheet</div>
+      <h1>The OOC-EMR<br><em>Decision Process</em></h1>
+      <p class="hero-desc">Stop spinning in your head. Work through this framework on paper — or right here — to reach a clear, confident decision every time.</p>
+      <div class="acronym-row">
+        <div class="acr-pill"><span>O</span> Outcomes</div>
+        <div class="acr-pill"><span>O</span> Options</div>
+        <div class="acr-pill"><span>C</span> Consequences</div>
+        <div class="acr-pill"><span>E</span> Evaluate</div>
+        <div class="acr-pill"><span>M</span> Mitigate</div>
+        <div class="acr-pill"><span>R</span> Resolve</div>
+      </div>
+    </div>
+
+    <!-- Tony Robbins YouTube Short -->
+    <a
+      class="video-card"
+      href="https://youtube.com/shorts/yXWAkgdTx8g?si=k0jcMmKJkrSvOXoa"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Watch Tony Robbins explain this decision framework on YouTube"
+      title="Watch on YouTube"
+    >
+      <img
+        class="video-thumb"
+        src="https://i.ytimg.com/vi/yXWAkgdTx8g/oq2.jpg"
+        alt="Tony Robbins – OOC-EMR Decision Framework"
+        onerror="this.src='https://i.ytimg.com/vi/yXWAkgdTx8g/hqdefault.jpg'"
+      />
+      <div class="video-overlay"></div>
+      <div class="play-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="#e00" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="5,3 19,12 5,21" />
+        </svg>
+      </div>
+      <div class="video-label">
+        <div class="yt-badge">
+          <svg width="10" height="8" viewBox="0 0 24 17" fill="white"><path d="M23.5 2.5S23.2.5 22.3.6C21.3-.3 20.2 0 20.2 0H3.8S2.7-.3 1.7.6C.8.5.5 2.5.5 2.5S0 4.8 0 7v2.1c0 2.3.5 4.5.5 4.5s.3 2 1.2 1.9c1-.9 2.1-.6 2.1-.6s.7.1 6.2.1c5.5-.1 11-.3 11-.3s1.1.3 2.1-.6c.9.1 1.2-1.9 1.2-1.9S24 11.4 24 9.1V7c0-2.2-.5-4.5-.5-4.5zM9.5 11.5v-6l6.5 3-6.5 3z"/></svg>
+          Shorts
+        </div>
+        <div>Watch Tony Robbins explain this framework</div>
+      </div>
+    </a>
+
+  </div>
+</header>
+
+<!-- Snapshot bar -->
+<div class="snapshot">
+  <div class="snapshot-inner">
+    <div>
+      <div class="snap-label">Decision I need to make</div>
+      <input class="snap-field" type="text" placeholder="Describe the decision in one sentence…" />
+    </div>
+    <div class="snap-pair">
+      <div class="snap-label">Date</div>
+      <input class="snap-field" type="date" />
+    </div>
+    <div class="snap-pair">
+      <div class="snap-label">Deadline</div>
+      <input class="snap-field" type="date" />
+    </div>
+  </div>
+</div>
+
+<main class="page">
+
+  <!-- Step 1 -->
+  <div class="step">
+    <div class="step-head">
+      <div class="step-badge">O</div>
+      <div>
+        <div class="step-title">1. Outcomes — What do I really want?</div>
+        <div class="step-sub">Get clear on the result before you judge the choices.</div>
+      </div>
+      <div class="ghost-letter">O</div>
+    </div>
+    <div class="step-body">
+      <div>
+        <div class="instr">
+          <div class="instr-title">What to do</div>
+          <ul>
+            <li>Write the top 3–5 outcomes you want from this decision.</li>
+            <li>Rank them in order of importance.</li>
+            <li>Separate must-haves from nice-to-haves.</li>
+          </ul>
+        </div>
+        <div class="tip">
+          <span class="tip-label">Example</span>
+          Choosing a hotel: 1) clean &amp; family-friendly, 2) relaxing pool, 3) easy dinner options, 4) good value, 5) walkable to town.
+        </div>
+      </div>
+      <div
+        class="write-area"
+        contenteditable="true"
+        data-placeholder="List your desired outcomes here, ranked from most to least important…"
+        role="textbox"
+        aria-multiline="true"
+        aria-label="Outcomes writing area"
+      ></div>
+    </div>
+  </div>
+
+  <div class="divider">Step 2 of 6</div>
+
+  <!-- Step 2 -->
+  <div class="step">
+    <div class="step-head">
+      <div class="step-badge">O</div>
+      <div>
+        <div class="step-title">2. Options — What are all my choices?</div>
+        <div class="step-sub">More options usually creates better decisions.</div>
+      </div>
+      <div class="ghost-letter">O</div>
+    </div>
+    <div class="step-body">
+      <div>
+        <div class="instr">
+          <div class="instr-title">What to do</div>
+          <ul>
+            <li>List every realistic option — don't filter yet.</li>
+            <li>Add at least one creative or hybrid option.</li>
+            <li>Quantity first. Judgment comes later.</li>
+          </ul>
+        </div>
+        <div class="tip">
+          <span class="tip-label">Example</span>
+          Stay where I am, move hotels, change city, split the stay, spend more for convenience, or cut the trip short.
+        </div>
+      </div>
+      <div
+        class="write-area"
+        contenteditable="true"
+        data-placeholder="Option A: …&#10;Option B: …&#10;Option C: …&#10;Option D (creative): …"
+        role="textbox"
+        aria-multiline="true"
+        aria-label="Options writing area"
+      ></div>
+    </div>
+  </div>
+
+  <div class="divider">Step 3 of 6</div>
+
+  <!-- Step 3 -->
+  <div class="step">
+    <div class="step-head">
+      <div class="step-badge">C</div>
+      <div>
+        <div class="step-title">3. Consequences — What happens if I choose each option?</div>
+        <div class="step-sub">Look at the upside, downside, cost, risk, and long-term effect.</div>
+      </div>
+      <div class="ghost-letter">C</div>
+    </div>
+    <div class="step-body">
+      <div>
+        <div class="instr">
+          <div class="instr-title">Questions to answer</div>
+          <ul>
+            <li>What is the best thing that could happen?</li>
+            <li>What is the worst thing that could happen?</li>
+            <li>What will this cost in money, energy, stress, or time?</li>
+            <li>How will I feel about this in 1 week, 6 months, and 5 years?</li>
+          </ul>
+        </div>
+      </div>
+      <div
+        class="write-area"
+        contenteditable="true"
+        data-placeholder="Option A → Best case: … Worst case: … Cost: …&#10;Option B → Best case: … Worst case: … Cost: …"
+        role="textbox"
+        aria-multiline="true"
+        aria-label="Consequences writing area"
+      ></div>
+    </div>
+  </div>
+
+  <div class="divider">Step 4 of 6</div>
+
+  <!-- Step 4 — Score Table -->
+  <div class="step">
+    <div class="step-head">
+      <div class="step-badge">E</div>
+      <div>
+        <div class="step-title">4. Evaluate — Which option best meets the outcome?</div>
+        <div class="step-sub">Score each option instead of relying on emotion alone.</div>
+      </div>
+      <div class="ghost-letter">E</div>
+    </div>
+    <div class="step-body wide">
+      <table class="score-table">
+        <thead>
+          <tr>
+            <th>Option</th>
+            <th>Outcome Fit /10</th>
+            <th>Cost /10</th>
+            <th>Ease /10</th>
+            <th>Risk /10</th>
+            <th class="total-col">Total /40</th>
+          </tr>
+        </thead>
+        <tbody id="score-body">
+          <tr>
+            <td><input class="cell-input" type="text" placeholder="Option A" /></td>
+            <td><input class="cell-input score-val" type="number" min="0" max="10" placeholder="—" /></td>
+            <td><input class="cell-input score-val" type="number" min="0" max="10" placeholder="—" /></td>
+            <td><input class="cell-input score-val" type="number" min="0" max="10" placeholder="—" /></td>
+            <td><input class="cell-input score-val" type="number" min="0" max="10" placeholder="—" /></td>
+            <td class="total-col"><input class="cell-input total-display" type="text" readonly placeholder="—" /></td>
+          </tr>
+          <tr>
+            <td><input class="cell-input" type="text" placeholder="Option B" /></td>
+            <td><input class="cell-input score-val" type="number" min="0" max="10" placeholder="—" /></td>
+            <td><input class="cell-input score-val" type="number" min="0" max="10" placeholder="—" /></td>
+            <td><input class="cell-input score-val" type="number" min="0" max="10" placeholder="—" /></td>
+            <td><input class="cell-input score-val" type="number" min="0" max="10" placeholder="—" /></td>
+            <td class="total-col"><input class="cell-input total-display" type="text" readonly placeholder="—" /></td>
+          </tr>
+          <tr>
+            <td><input class="cell-input" type="text" placeholder="Option C" /></td>
+            <td><input class="cell-input score-val" type="number" min="0" max="10" placeholder="—" /></td>
+            <td><input class="cell-input score-val" type="number" min="0" max="10" placeholder="—" /></td>
+            <td><input class="cell-input score-val" type="number" min="0" max="10" placeholder="—" /></td>
+            <td><input class="cell-input score-val" type="number" min="0" max="10" placeholder="—" /></td>
+            <td class="total-col"><input class="cell-input total-display" type="text" readonly placeholder="—" /></td>
+          </tr>
+          <tr>
+            <td><input class="cell-input" type="text" placeholder="Option D" /></td>
+            <td><input class="cell-input score-val" type="number" min="0" max="10" placeholder="—" /></td>
+            <td><input class="cell-input score-val" type="number" min="0" max="10" placeholder="—" /></td>
+            <td><input class="cell-input score-val" type="number" min="0" max="10" placeholder="—" /></td>
+            <td><input class="cell-input score-val" type="number" min="0" max="10" placeholder="—" /></td>
+            <td class="total-col"><input class="cell-input total-display" type="text" readonly placeholder="—" /></td>
+          </tr>
+          <tr>
+            <td><input class="cell-input" type="text" placeholder="Option E" /></td>
+            <td><input class="cell-input score-val" type="number" min="0" max="10" placeholder="—" /></td>
+            <td><input class="cell-input score-val" type="number" min="0" max="10" placeholder="—" /></td>
+            <td><input class="cell-input score-val" type="number" min="0" max="10" placeholder="—" /></td>
+            <td><input class="cell-input score-val" type="number" min="0" max="10" placeholder="—" /></td>
+            <td class="total-col"><input class="cell-input total-display" type="text" readonly placeholder="—" /></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="table-note">Score each column out of 10. Totals calculate automatically. Higher = better for Outcome Fit, Ease; lower = better for Cost, Risk — adjust your weighting mentally.</p>
+    </div>
+  </div>
+
+  <div class="divider">Step 5 of 6</div>
+
+  <!-- Step 5 -->
+  <div class="step">
+    <div class="step-head">
+      <div class="step-badge">M</div>
+      <div>
+        <div class="step-title">5. Mitigate — How can I reduce the downsides?</div>
+        <div class="step-sub">Before rejecting the best option, see if the risks can be lowered.</div>
+      </div>
+      <div class="ghost-letter">M</div>
+    </div>
+    <div class="step-body">
+      <div>
+        <div class="instr">
+          <div class="instr-title">What to do</div>
+          <ul>
+            <li>Pick the leading option from step 4.</li>
+            <li>Write its biggest risks or objections.</li>
+            <li>Create a practical fix or workaround for each one.</li>
+          </ul>
+        </div>
+        <div class="tip">
+          <span class="tip-label">Example</span>
+          Risk: hotel is too far from restaurants. Fix: book two nights near town, arrange transport in advance, use resort dining other nights.
+        </div>
+      </div>
+      <div
+        class="write-area"
+        contenteditable="true"
+        data-placeholder="Risk 1: …   →   Fix: …&#10;Risk 2: …   →   Fix: …&#10;Risk 3: …   →   Fix: …"
+        role="textbox"
+        aria-multiline="true"
+        aria-label="Mitigate writing area"
+      ></div>
+    </div>
+  </div>
+
+  <div class="divider">Step 6 of 6 — Commit</div>
+
+  <!-- Step 6 — Resolve -->
+  <div class="resolve-card">
+    <h2>6. Resolve — Make the decision and commit</h2>
+    <div class="step-sub" style="color:#6b7280;margin-bottom:24px;">Write it down. Say it out loud. Move.</div>
+    <div class="resolve-grid">
+      <div class="resolve-box">
+        <div class="resolve-label">My decision is</div>
+        <div
+          class="resolve-write"
+          contenteditable="true"
+          data-placeholder="State the decision clearly…"
+          role="textbox"
+          aria-multiline="true"
+        ></div>
+      </div>
+      <div class="resolve-box">
+        <div class="resolve-label">Why this is the best choice</div>
+        <div
+          class="resolve-write"
+          contenteditable="true"
+          data-placeholder="The reasons that matter most…"
+          role="textbox"
+          aria-multiline="true"
+        ></div>
+      </div>
+      <div class="resolve-box">
+        <div class="resolve-label">First action within 24 hours</div>
+        <div
+          class="resolve-write"
+          contenteditable="true"
+          data-placeholder="One specific action I will take today or tomorrow…"
+          role="textbox"
+          aria-multiline="true"
+        ></div>
+      </div>
+      <div class="resolve-box">
+        <div class="resolve-label">What I will stop second-guessing</div>
+        <div
+          class="resolve-write"
+          contenteditable="true"
+          data-placeholder="Write down what you're committing to not revisit…"
+          role="textbox"
+          aria-multiline="true"
+        ></div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- Floating download button -->
+<button class="fab" onclick="window.print()" aria-label="Download as PDF">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+    <polyline points="7 10 12 15 17 10"/>
+    <line x1="12" y1="15" x2="12" y2="3"/>
+  </svg>
+  Download PDF
+</button>
+
+<script>
+  // Auto-total the score table
+  function recalcRow(row) {
+    const vals = Array.from(row.querySelectorAll('.score-val'));
+    const total = row.querySelector('.total-display');
+    if (!total) return;
+    const sum = vals.reduce((acc, inp) => {
+      const v = parseFloat(inp.value);
+      return acc + (isNaN(v) ? 0 : v);
+    }, 0);
+    const hasAny = vals.some(i => i.value.trim() !== '');
+    total.value = hasAny ? sum : '';
+  }
+
+  document.getElementById('score-body').addEventListener('input', e => {
+    if (e.target.classList.contains('score-val')) {
+      recalcRow(e.target.closest('tr'));
+    }
+  });
+
+  // Prevent paste from injecting HTML into write areas
+  document.querySelectorAll('[contenteditable]').forEach(el => {
+    el.addEventListener('paste', e => {
+      e.preventDefault();
+      const text = (e.clipboardData || window.clipboardData).getData('text/plain');
+      document.execCommand('insertText', false, text);
+    });
+  });
+</script>
+</body>
+</html>
