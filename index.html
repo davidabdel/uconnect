@@ -270,6 +270,11 @@ a.plaque .pfoot::after{content:" \2197"}
 }
 #modal .consent a{color:var(--molten);text-decoration:underline}
 #modal .consent a:hover{color:var(--chrome)}
+#modal .consent-note{
+  color:var(--smoke);font-size:.74rem;line-height:1.5;font-weight:300;margin-top:.9rem;opacity:.85;
+}
+#modal .consent-note a{color:var(--molten);text-decoration:underline}
+#modal .consent-note a:hover{color:var(--chrome)}
 #modal .ferr{color:#e88a7a;font-size:.82rem;min-height:1.2em;margin-top:.9rem}
 #modal .btn.send{margin-top:.4rem;width:100%}
 #modal .close{
@@ -409,8 +414,13 @@ footer .base{
       <textarea id="f-msg" rows="4" placeholder="What's on your mind?"></textarea>
       <div class="consent">
         <input id="f-consent" type="checkbox">
-        <label for="f-consent">By checking this box, I consent to receive non-marketing text messages from UConnect about my enquiry, including responses and related account and appointment updates. Message frequency varies, message &amp; data rates may apply. Text HELP for assistance, reply STOP to opt out. Consent is optional and not required to submit this form. See our <a href="/privacy.html" target="_blank" rel="noopener">Privacy Policy</a> and <a href="/tc.html" target="_blank" rel="noopener">Terms &amp; Conditions</a>.</label>
+        <label for="f-consent">By checking this box, I consent to receive non-marketing text messages from UConnect about my enquiry, including responses and related account and appointment updates. Message frequency varies, message &amp; data rates may apply. Text HELP for assistance, reply STOP to opt out.</label>
       </div>
+      <div class="consent">
+        <input id="f-consent-mktg" type="checkbox">
+        <label for="f-consent-mktg">By checking this box, I consent to receive marketing and promotional messages including special offers, discounts and new product updates, among others, from UConnect at the phone number provided. Frequency may vary. Message &amp; data rates may apply. Text HELP for assistance, reply STOP to opt out.</label>
+      </div>
+      <p class="consent-note">Both are optional and not required to submit this form. See our <a href="/privacy.html" target="_blank" rel="noopener">Privacy Policy</a> and <a href="/tc.html" target="_blank" rel="noopener">Terms &amp; Conditions</a>.</p>
       <div class="ferr" id="ferr"></div>
       <button class="btn send" id="sendform" type="button">Send message</button>
     </div>
@@ -670,6 +680,7 @@ document.getElementById('openform').addEventListener('click', () => {
   document.getElementById('formview').style.display = 'block';
   document.getElementById('doneview').style.display = 'none';
   document.getElementById('f-consent').checked = false;
+  document.getElementById('f-consent-mktg').checked = false;
   document.getElementById('ferr').textContent = '';
 });
 document.getElementById('closeform').addEventListener('click', () => modal.classList.remove('open'));
@@ -681,10 +692,11 @@ document.getElementById('sendform').addEventListener('click', async () => {
   const phone = document.getElementById('f-phone').value.trim();
   const message = document.getElementById('f-msg').value.trim();
   const consent = document.getElementById('f-consent').checked;
+  const marketingConsent = document.getElementById('f-consent-mktg').checked;
   const err = document.getElementById('ferr');
   if (!name || !phone) { err.textContent = 'Please add your name and number.'; return; }
   err.textContent = '';
-  const payload = { name, phone, message, sms_consent: consent, source: 'uconnect.com.au', ts: new Date().toISOString() };
+  const payload = { name, phone, message, sms_consent: consent, sms_marketing_consent: marketingConsent, source: 'uconnect.com.au', ts: new Date().toISOString() };
   try {
     if (WEBHOOK_URL) {
       await fetch(WEBHOOK_URL, {
