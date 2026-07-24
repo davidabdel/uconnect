@@ -1,0 +1,519 @@
+/* ============================================================
+   UConnect — landing styles
+   Token-driven. No hex colours outside :root.
+   ============================================================ */
+
+:root {
+  /* --- Colour (ink / paper / one accent) --- */
+  --ink:        #141210;   /* near-black text + rules */
+  --ink-soft:   #45403a;   /* secondary text */
+  --paper:      #f6f3ec;   /* off-white page */
+  --paper-pure: #fffdf8;   /* raised surfaces (form fields, card) */
+  --accent:     oklch(0.66 0.20 42);   /* single strong accent — CTAs, key numbers */
+  --accent-ink: #1a1206;   /* text that sits ON the accent */
+  --band:       #141210;   /* dark full-width band (reframe) */
+  --band-text:  #f6f3ec;   /* text on the dark band */
+
+  /* --- Rule weights (hard edges, no radius) --- */
+  --rule:       2px;
+  --rule-heavy: 3px;
+
+  /* --- Spacing scale --- */
+  --s-1: 0.5rem;
+  --s-2: 0.75rem;
+  --s-3: 1rem;
+  --s-4: 1.5rem;
+  --s-5: 2rem;
+  --s-6: 3rem;
+  --s-7: 4.5rem;
+  --s-8: 6.5rem;
+
+  /* --- Type --- */
+  --font: "Archivo", Arial, Helvetica, sans-serif;
+  --font-black: "Archivo Black", "Archivo", Arial, sans-serif;
+
+  /* --- Measure (text container max-widths, in ch) --- */
+  --measure-head: 20ch;
+  --measure-body: 42ch;
+
+  /* --- Motion --- */
+  --fade-dist: 12px;
+  --fade-time: 400ms;
+}
+
+/* ---------- Reset-ish ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-weight: 400;
+  color: var(--ink);
+  background: var(--paper);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+h1, h2, p, blockquote, dl, dd, figure, ul, ol { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+img { max-width: 100%; }
+
+/* ---------- Shared layout ---------- */
+.section {
+  padding: var(--s-8) var(--s-4);
+  max-width: 62rem;
+  margin-inline: auto;
+}
+.section__title {
+  font-family: var(--font-black);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 1.02;
+  text-wrap: pretty;
+  font-size: clamp(1.85rem, 6.2vw, 3.1rem);
+  max-width: 24ch;
+}
+
+/* ---------- Buttons / CTA ---------- */
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+  margin-top: var(--s-5);
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.85rem 1.6rem;
+  font-family: var(--font);
+  font-weight: 700;
+  font-size: 1.05rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  cursor: pointer;
+}
+.btn--cta {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border: var(--rule) solid var(--ink);
+  box-shadow: 6px 6px 0 var(--ink);
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+.btn--cta:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 3px 3px 0 var(--ink);
+}
+.btn--cta:active {
+  transform: translate(6px, 6px);
+  box-shadow: 0 0 0 var(--ink);
+}
+.btn--submit {
+  width: 100%;
+  margin-top: var(--s-4);
+}
+
+/* ---------- Focus ---------- */
+:focus-visible {
+  outline: var(--rule) solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* ============================================================
+   1. HERO
+   ============================================================ */
+.hero {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--s-5) var(--s-4) var(--s-6);
+  max-width: 62rem;
+  margin-inline: auto;
+  border-bottom: var(--rule) solid var(--ink);
+}
+.wordmark {
+  font-family: var(--font-black);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  font-size: 1.05rem;
+  margin-bottom: var(--s-5);
+}
+.hero__headline {
+  font-family: var(--font-black);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: -0.015em;
+  line-height: 0.98;
+  text-wrap: pretty;
+  font-size: clamp(2.6rem, 11vw, 5.6rem);
+  max-width: 15ch;
+}
+.hero__subhead {
+  margin-top: var(--s-4);
+  font-size: clamp(1.1rem, 3.4vw, 1.4rem);
+  font-weight: 500;
+  color: var(--ink-soft);
+  max-width: var(--measure-body);
+  text-wrap: pretty;
+}
+
+/* ============================================================
+   2. PROBLEM
+   ============================================================ */
+.problem__list {
+  margin-top: var(--s-6);
+  display: grid;
+  gap: 0;
+  border-top: var(--rule) solid var(--ink);
+}
+.problem__list li {
+  padding: var(--s-4) 0;
+  border-bottom: var(--rule) solid var(--ink);
+  font-size: clamp(1.25rem, 4.2vw, 1.9rem);
+  font-weight: 600;
+  line-height: 1.15;
+  text-wrap: pretty;
+  max-width: 34ch;
+}
+
+/* ============================================================
+   3. SIGNATURE REFRAME (dark band — accent text lives here)
+   ============================================================ */
+.reframe {
+  background: var(--band);
+  color: var(--band-text);
+  padding: var(--s-8) var(--s-4);
+  border-block: var(--rule-heavy) solid var(--ink);
+}
+.reframe__quote {
+  max-width: 62rem;
+  margin-inline: auto;
+}
+.reframe__line {
+  display: block;
+  font-family: var(--font-black);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: -0.015em;
+  line-height: 0.97;
+  text-wrap: pretty;
+  font-size: clamp(2.4rem, 10vw, 5rem);
+}
+.reframe__line--accent {
+  color: var(--accent);   /* accent text, large, on the dark band only */
+}
+
+/* ============================================================
+   4. HOW IT WORKS
+   ============================================================ */
+.steps__list {
+  margin-top: var(--s-6);
+  display: grid;
+  gap: var(--s-4);
+}
+.steps__item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: baseline;
+  gap: var(--s-4);
+  padding-bottom: var(--s-4);
+  border-bottom: var(--rule) solid var(--ink);
+}
+.steps__num {
+  font-family: var(--font-black);
+  font-size: clamp(2.2rem, 8vw, 3.4rem);
+  line-height: 1;
+  color: var(--accent);   /* key number — accent, large */
+}
+.steps__text {
+  font-size: clamp(1.15rem, 3.6vw, 1.6rem);
+  font-weight: 600;
+  line-height: 1.2;
+  text-wrap: pretty;
+  max-width: 26ch;
+}
+
+/* ============================================================
+   5. PROOF
+   ============================================================ */
+.proof__grid {
+  margin-top: var(--s-6);
+  display: grid;
+  gap: var(--s-6);
+}
+.proof__figure {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  border-top: var(--rule-heavy) solid var(--ink);
+  padding-top: var(--s-4);
+}
+.proof__number {
+  font-family: var(--font-black);
+  font-size: clamp(4.5rem, 22vw, 9rem);
+  line-height: 0.85;
+  color: var(--accent);   /* the star number */
+  display: inline-flex;
+  align-items: baseline;
+}
+.proof__unit {
+  font-size: 0.32em;
+  margin-left: 0.15em;
+  color: var(--ink);
+}
+.proof__context {
+  font-size: clamp(1.05rem, 3.2vw, 1.35rem);
+  font-weight: 500;
+  color: var(--ink-soft);
+  max-width: 30ch;
+  text-wrap: pretty;
+}
+.proof__testimonial {
+  display: grid;
+  gap: var(--s-3);
+  border-left: var(--rule) solid var(--ink);
+  padding-left: var(--s-4);
+}
+.proof__photo {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;   /* the ONE circle — the photo slot itself */
+  border: var(--rule) solid var(--ink);
+  background: var(--paper-pure);
+  display: grid;
+  place-items: center;
+}
+.proof__photo-note {
+  font-family: "Courier New", monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+}
+.proof__words {
+  font-size: clamp(1.3rem, 4.2vw, 1.8rem);
+  font-weight: 700;
+  line-height: 1.2;
+  text-wrap: pretty;
+  max-width: 26ch;
+}
+.proof__name {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* ============================================================
+   6. OFFER — THE TASK AUDIT (standout card)
+   ============================================================ */
+.offer { text-align: left; }
+.offer__card {
+  background: var(--paper-pure);
+  border: var(--rule-heavy) solid var(--ink);
+  box-shadow: 10px 10px 0 var(--accent);   /* accent used in the offer-card shadow */
+  padding: var(--s-6) var(--s-5);
+}
+.offer__kicker {
+  font-family: var(--font);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.95rem;
+  color: var(--accent);   /* kicker marker — accent, ≥24px? kicker is small text; kept on light… */
+}
+.offer__title {
+  margin-top: var(--s-2);
+  font-family: var(--font-black);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  font-size: clamp(2.4rem, 9vw, 4rem);
+}
+.offer__body {
+  margin-top: var(--s-4);
+  font-size: clamp(1.1rem, 3.4vw, 1.35rem);
+  font-weight: 500;
+  color: var(--ink-soft);
+  max-width: 46ch;
+  text-wrap: pretty;
+}
+.offer__risk {
+  margin-top: var(--s-4);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+  max-width: 48ch;
+  text-wrap: pretty;
+}
+
+/* ============================================================
+   7. OBJECTIONS
+   ============================================================ */
+.objections__list {
+  margin-top: var(--s-6);
+  border-top: var(--rule) solid var(--ink);
+}
+.objections__q {
+  padding-top: var(--s-4);
+  font-family: var(--font);
+  font-weight: 800;
+  font-size: clamp(1.2rem, 3.8vw, 1.6rem);
+  line-height: 1.15;
+  text-wrap: pretty;
+  max-width: 30ch;
+}
+.objections__a {
+  padding: var(--s-2) 0 var(--s-4);
+  border-bottom: var(--rule) solid var(--ink);
+  font-size: clamp(1.02rem, 3vw, 1.2rem);
+  font-weight: 500;
+  color: var(--ink-soft);
+  max-width: 44ch;
+  text-wrap: pretty;
+}
+
+/* ============================================================
+   8. FINAL CTA / CONTACT (matches the QR card)
+   ============================================================ */
+.contact {
+  background: var(--band);
+  color: var(--band-text);
+  border-top: var(--rule-heavy) solid var(--ink);
+  padding: var(--s-8) var(--s-4);
+}
+.contact__title {
+  font-family: var(--font-black);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: -0.015em;
+  line-height: 0.98;
+  text-wrap: pretty;
+  font-size: clamp(2.8rem, 12vw, 5.4rem);
+  color: var(--accent);   /* the QR-card phrase, accent, large — matches print card */
+  max-width: 14ch;
+  margin-inline: auto;
+}
+.contact__sub {
+  margin: var(--s-4) auto 0;
+  font-size: clamp(1.1rem, 3.4vw, 1.35rem);
+  font-weight: 500;
+  max-width: var(--measure-body);
+  text-wrap: pretty;
+}
+
+/* ---------- Form ---------- */
+.form {
+  margin: var(--s-6) auto 0;
+  max-width: 34rem;
+}
+.field { margin-bottom: var(--s-4); }
+.field__label {
+  display: block;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: var(--s-1);
+}
+.field__input {
+  width: 100%;
+  font-family: var(--font);
+  font-size: 1.05rem;
+  color: var(--ink);
+  background: var(--paper-pure);
+  border: var(--rule) solid var(--paper);
+  padding: 0.8rem 0.9rem;
+}
+.field__input::placeholder { color: var(--ink-soft); opacity: 0.7; }
+.field__input--area { resize: vertical; min-height: 6rem; }
+.field__input:focus-visible {
+  outline: var(--rule) solid var(--accent);
+  outline-offset: 2px;
+}
+.field__input[aria-invalid="true"] {
+  outline: var(--rule) solid var(--accent);
+  outline-offset: 0;
+}
+.form__error {
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin-bottom: var(--s-2);
+}
+
+/* ---------- Confirmation ---------- */
+.confirm {
+  margin: var(--s-6) auto 0;
+  max-width: 34rem;
+  border: var(--rule-heavy) solid var(--accent);
+  padding: var(--s-6) var(--s-5);
+}
+.confirm__headline {
+  font-family: var(--font-black);
+  text-transform: uppercase;
+  font-size: clamp(2.4rem, 9vw, 3.6rem);
+  line-height: 1;
+  color: var(--accent);
+}
+.confirm__body {
+  margin-top: var(--s-3);
+  font-size: clamp(1.05rem, 3.2vw, 1.25rem);
+  font-weight: 500;
+  text-wrap: pretty;
+}
+
+/* ============================================================
+   Scroll reveal (fade-up)
+   ============================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(var(--fade-dist));
+  transition: opacity var(--fade-time) ease, transform var(--fade-time) ease;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ============================================================
+   Breakpoint — single desktop step (~720px+)
+   ============================================================ */
+@media (min-width: 720px) {
+  .problem__list {
+    grid-template-columns: 1fr 1fr;
+    column-gap: var(--s-6);
+  }
+  .problem__list li { border-bottom: var(--rule) solid var(--ink); }
+
+  .proof__grid {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    gap: var(--s-7);
+  }
+  .steps__list {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--s-5);
+  }
+  .steps__item {
+    grid-template-columns: 1fr;
+    gap: var(--s-2);
+  }
+}
+
+/* ============================================================
+   Reduced motion — kill all movement
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .btn--cta, .btn--cta:hover, .btn--cta:active {
+    transition: none;
+    transform: none;
+  }
+  * { scroll-behavior: auto !important; }
+}
